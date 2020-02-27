@@ -36,13 +36,7 @@ Have a look at the example below:
 
 # How does it look like?
 
-
-ÉÍÍÍÍÍÍÍÍÍËÍÍÍÍÍÍÍËÍÍÍÍËÍÍÍÍÍËÍÍÍÍÍÍÍÍÍËÍÍÍÍËÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
-ºModule IDºExcp IDºMiscºCountºTimestampºLineºFile           º
-ÌÍÍÍÍÍÍÍÍÍÎÍÍÍÍÍÍÍÎÍÍÍÍÎÍÍÍÍÍÎÍÍÍÍÍÍÍÍÍÎÍÍÍÍÎÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¹
-º110      º300    º0   º2    º0l       º96  ºapplication.cppº
-ÈÍÍÍÍÍÍÍÍÍÊÍÍÍÍÍÍÍÊÍÍÍÍÊÍÍÍÍÍÊÍÍÍÍÍÍÍÍÍÊÍÍÍÍÊÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¼
-(TODO fix the ASCII representation)
+<todo>
 
 
 # How to Integrate?
