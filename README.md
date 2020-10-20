@@ -1,6 +1,8 @@
-# sw.lib.ascii_table
+# Lightweight ASCII Table
+
 Libtable is a lightweight C library to draw ASCII tables, especially designed for system with very litte RAM/flash. RAM usage is kept to an absolute minimum.
 To further reduce memory footprint, the library supports printing out data line by line, therefore allowing printing large tables via UART without the need of creating large buffers.
+The key to reduce RAM footprint is to not buffer the entire table in RAM, but draw it and push it out line-by-line. It is therefore sufficient to allocate only one single line of the diagram!
 
 No dynamic memory allocations are used. All allocations are static, making this library therefore suitable for automotive / safety critical environments.
 
@@ -10,28 +12,26 @@ To be portable, it is a C library.
 
 Have a look at the example below:
 
-  tst_lib_table table;
-  i32_lib_table_initialize_table(&table);
+tst_lib_table table;
+i32_lib_table_initialize_table(&table);
 
-  // add rows to the table
-  i32_lib_table_add_row(&table, 7, "Module ID", "Excp ID", "Misc", "Count", "Timestamp", "Line", "File");
+// add data to the table
+i32_lib_table_add_row(&table, 7, "Module ID", "Excp ID", "Misc", "Count", "Timestamp", "Line", "File");
+for (....)
+{
+i32_lib_table_add_row(&table, 7, ac_module_id, ac_excp_id, ac_misc, ac_count, ac_timestamp, ac_line, itr->m_ai8_file);
+}
   
-  for (....)
-  {
-     i32_lib_table_add_row(&table, 7, ac_module_id, ac_excp_id, ac_misc, ac_count, ac_timestamp, ac_line, itr->m_ai8_file);
-  }
-  
-  // print it out using a 128-byte small buffer
-  char buffer[128];
-  int32_t i32_ret_val = 1;
-  uint32_t u32_offet = 0u;
-  while(1 == i32_ret_val)
-  {
-
-      i32_ret_val = i32_lib_table_draw_table(&table, buffer, 128, u32_offet);
-      u32_offet += 127;
-      std::cout << buffer;
-  }
+// print it out using a 128-byte small buffer
+char buffer[128];
+int32_t i32_ret_val = 1;
+uint32_t u32_offet = 0u;
+while(1 == i32_ret_val)
+{
+i32_ret_val = i32_lib_table_draw_table(&table, buffer, 128, u32_offet);
+u32_offet += 127;
+std::cout << buffer;
+}
 
 
 # How does it look like?
