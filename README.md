@@ -11,7 +11,7 @@ To be portable, it is a C library.
 # How to use it?
 
 Have a look at the example below:
-
+```cpp
 tst_lib_table table;
 i32_lib_table_initialize_table(&table);
 
@@ -19,7 +19,7 @@ i32_lib_table_initialize_table(&table);
 i32_lib_table_add_row(&table, 7, "Module ID", "Excp ID", "Misc", "Count", "Timestamp", "Line", "File");
 for (....)
 {
-i32_lib_table_add_row(&table, 7, ac_module_id, ac_excp_id, ac_misc, ac_count, ac_timestamp, ac_line, itr->m_ai8_file);
+    i32_lib_table_add_row(&table, 7, ac_module_id, ac_excp_id, ac_misc, ac_count, ac_timestamp, ac_line, itr->m_ai8_file);
 }
   
 // print it out using a 128-byte small buffer
@@ -28,11 +28,11 @@ int32_t i32_ret_val = 1;
 uint32_t u32_offet = 0u;
 while(1 == i32_ret_val)
 {
-i32_ret_val = i32_lib_table_draw_table(&table, buffer, 128, u32_offet);
-u32_offet += 127;
-std::cout << buffer;
+    i32_ret_val = i32_lib_table_draw_table(&table, buffer, 128, u32_offet);
+    u32_offet += 127;
+    std::cout << buffer;
 }
-
+```
 
 # How does it look like?
 
