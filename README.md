@@ -2,8 +2,9 @@
 
 Libtable is a lightweight C library to draw ASCII tables, especially designed for system with very litte RAM/flash. RAM usage is kept to an absolute minimum.
 To further reduce memory footprint, the library supports printing out data line by line, therefore allowing printing large tables via UART without the need of creating large buffers.
-The key to reduce RAM footprint is to not buffer the entire table in RAM, but draw it and push it out line-by-line. It is therefore sufficient to allocate only one single line of the diagram!
+The key to reduce RAM footprint is to not buffer the entire table in RAM, but draw it and push it out line-by-line. It is therefore sufficient to allocate only one single line of the table!
 
+Only one standard-design is supported. column width is automatically calculated based on the content size.
 No dynamic memory allocations are used. All allocations are static, making this library therefore suitable for automotive / safety critical environments.
 
 To be portable, it is a C library.
@@ -36,14 +37,28 @@ while(1 == i32_ret_val)
 
 # How does it look like?
 
-<todo>
 
+This is an example on how the table looks like when printed:
+```cpp
+╔═════════╦═══════╦════╦═════╦═════════╦════╦═══════════════╗
+║Module ID║Excp ID║Misc║Count║Timestamp║Line║File           ║
+╠═════════╬═══════╬════╬═════╬═════════╬════╬═══════════════╣
+║5        ║105    ║-22 ║1    ║0l       ║124 ║xcp_handler.cpp║
+╠═════════╬═══════╬════╬═════╬═════════╬════╬═══════════════╣
+║120      ║102    ║0   ║1    ║536890776║79  ║eol/src/eol.cpp║
+╠═════════╬═══════╬════╬═════╬═════════╬════╬═══════════════╣
+║120      ║204    ║0   ║1    ║134441564║110 ║application.cpp║
+╠═════════╬═══════╬════╬═════╬═════════╬════╬═══════════════╣
+║110      ║300    ║0   ║1    ║536889112║123 ║application.cpp║
+╚═════════╩═══════╩════╩═════╩═════════╩════╩═══════════════╝
+```
 
 # How to Integrate?
 The library is basicially just two files. Just include them in your project, or integrate the CMake file, such as:
-
+```cmake
 add_subdirectory(misc/libs/libtable)
 target_link_libraries(${CMAKE_PROJECT_NAME} libtable)
+```
 
 The library is currently in a very early stage of development. There might be small issues left.
 
