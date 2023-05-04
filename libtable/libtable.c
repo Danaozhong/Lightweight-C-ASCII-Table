@@ -1,9 +1,13 @@
 #include <stddef.h>
 #include <stdarg.h>
 #include <string.h>
+#include <assert.h>
 
 #include "libtable.h"
 
+/** 
+ * This is a simple table border design.
+*/
 const tst_lib_table_design pi8_lib_table_design_basic =
 {
 	/* border_chars */
@@ -20,7 +24,7 @@ const tst_lib_table_design pi8_lib_table_design_basic =
 		'|', '|', '|',
 		'+', '-', '+', '+',
 		'+', '-', '+', '+',
-		'+', '+', '+', '+',
+		'+', '-', '+', '+',
 	},
 	/* separator_chars */
 	{
@@ -30,6 +34,9 @@ const tst_lib_table_design pi8_lib_table_design_basic =
 };
 
 
+/** @brief This is a table design that works well on UART interfaces.
+ * It uses double-line table borders.
+*/
 const tst_lib_table_design pi8_lib_table_design_nice =
 {
 	/* border_chars */
@@ -60,7 +67,12 @@ static char ai8_work_buffer[LIB_TABLE_MAXIMUM_LINE_LENGTH];
 
 int32_t i32_lib_table_initialize_table(tst_lib_table* ptst_table)
 {
-	ptst_table->pst_design = &pi8_lib_table_design_nice;
+	// use this table design for a simple look
+	ptst_table->pst_design = &pi8_lib_table_design_basic;
+	
+	// use this for double-line table borders (works well on UART)
+	//ptst_table->pst_design = &pi8_lib_table_design_nice;
+	
 	ptst_table->u16_num_of_cols = 0;
 	ptst_table->u16_num_of_rows = 0;
 	return 0;
@@ -142,19 +154,48 @@ int32_t i32_lib_table_add_row(tst_lib_table* ptst_table, uint16_t u16_column_cou
 
 static void v_lib_table_write_to_buffer(tst_limited_buffer_writer* ptst_buffer, int32_t i32_position, char* src, int32_t i32_num_of_bytes_to_write)
 {
+	int32_t num_of_skipped_start_bytes = 0;
+	int32_t i32_output_buffer_start_offset = 0;
+	
+	// check that the data is at least partially in the writing window
 	if (i32_position + i32_num_of_bytes_to_write < ptst_buffer->i32_dest_buffer_offset
-		|| i32_position > ptst_buffer->i32_dest_buffer_offset + ptst_buffer->i32_dest_buffer_size)
-	{
+		|| i32_position > ptst_buffer->i32_dest_buffer_offset + ptst_buffer->i32_dest_buffer_size) {
 		return;
 	}
 
-	// todo don't be lazy
+	// trim everthing at the start, i.e. skip everything not needed
+	num_of_skipped_start_bytes = ptst_buffer->i32_dest_buffer_offset - i32_position;
+	if (num_of_skipped_start_bytes > 0) {
+		// some part of the output would be written before the buffer,
+		// need to trim at the start.
+		i32_num_of_bytes_to_write -= num_of_skipped_start_bytes;
+	} else {
+		num_of_skipped_start_bytes = 0;
+	}
+
+	// trim at the end,i.e. delete everything from the buffer that
+	// doesn't fit in the output memory
 	while (i32_position + i32_num_of_bytes_to_write > ptst_buffer->i32_dest_buffer_offset + ptst_buffer->i32_dest_buffer_size)
 	{
 		i32_num_of_bytes_to_write--;
 	}
-	memcpy(ptst_buffer->pi8_dest_buffer - ptst_buffer->i32_dest_buffer_offset + i32_position,
-		src,
+
+	i32_output_buffer_start_offset = i32_position + num_of_skipped_start_bytes - ptst_buffer->i32_dest_buffer_offset;
+
+	// make sure to not write before the buffer
+	assert(i32_output_buffer_start_offset >= 0);
+
+	// make sure to never write outside of the buffer
+	assert(i32_num_of_bytes_to_write <= ptst_buffer->i32_dest_buffer_size);
+
+	// make sure to never read before the source buffer
+	assert(num_of_skipped_start_bytes >= 0);
+
+	// make sure to never overrun the source buffer
+	assert(i32_num_of_bytes_to_write <= LIB_TABLE_MAXIMUM_LINE_LENGTH);
+
+	memcpy(ptst_buffer->pi8_dest_buffer + i32_output_buffer_start_offset,
+		src + num_of_skipped_start_bytes,
 		i32_num_of_bytes_to_write);
 
 }
@@ -314,13 +355,13 @@ int32_t i32_lib_table_draw_table(const tst_lib_table *ptst_table, char* buffer, 
 	// make sure the buffer is 0 terminated
 	buffer[u32_buffer_size - 1] = '\0';
 
-	// completed printing
+	// check if the end of the table tas been rechaed
 	if (u32_total_table_byte_length < u32_buffer_size + u32_buffer_offset)
 	{
 		return 0;
 	}
-
-	// still got something to print
+	// if the end is not yet reached, signalize to the application that
+	// there is still got something to print out.
 	return 1;
 }
 
