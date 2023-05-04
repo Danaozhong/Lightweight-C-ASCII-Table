@@ -3,7 +3,7 @@
 
 #include "libtable.h"
 
-auto main(void) -> void {    
+auto main() -> int {    
     // Initialize the empty table
     tst_lib_table table;
     i32_lib_table_initialize_table(&table);
@@ -33,4 +33,5 @@ auto main(void) -> void {
         // for the next run, push out the next 127 (or less) bytes.
         u32_offet += 127;
     }
+    return 0;
 }
