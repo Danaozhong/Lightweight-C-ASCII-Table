@@ -11,6 +11,9 @@
 ```
 This is a C library to generate ASCII tables.
 
+## Status
+![build](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build.yml/badge.svg)
+
 ## Why yet another ASCII Table Library?
 I tried to use existing ASCII table libraries, but these didn't work for me on systems with very little RAM (e.g. IoT or low-powered microcontrollers), as none of the existing libraries are memory efficient. This library was written to support ASCII tables with minimum RAM usage.
 
