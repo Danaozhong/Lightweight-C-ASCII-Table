@@ -74,7 +74,7 @@ int32_t i32_lib_table_clear_table(tst_lib_table* ptst_table)
 	return 0;
 }
 
-int32_t i32_lib_table_add_row(tst_lib_table* ptst_table, uint16_t u16_count, ...)
+int32_t i32_lib_table_add_row(tst_lib_table* ptst_table, uint16_t u16_column_count, ...)
 {
 	uint16_t u16_i = 0u;
 	int32_t i32_ret_val = 0;
@@ -86,7 +86,7 @@ int32_t i32_lib_table_add_row(tst_lib_table* ptst_table, uint16_t u16_count, ...
 	}
 
 	// keep adding cols if needed
-	while (ptst_table->u16_num_of_cols < u16_count)
+	while (ptst_table->u16_num_of_cols < u16_column_count)
 	{
 		if (0 != i32_lib_table_add_col(ptst_table, ptst_table->u16_num_of_cols))
 		{
@@ -114,8 +114,8 @@ int32_t i32_lib_table_add_row(tst_lib_table* ptst_table, uint16_t u16_count, ...
 	ptst_table->u16_num_of_rows++;
 
 	// now, start adding the actual cell contents
-	va_start(va, u16_count);
-	for (u16_i = 0u; u16_i < u16_count && i32_ret_val == 0; ++u16_i)
+	va_start(va, u16_column_count);
+	for (u16_i = 0u; u16_i < u16_column_count && i32_ret_val == 0; ++u16_i)
 	{
 		const char *cell = va_arg(va, const char*);
 		uint32_t u32_strlen = strlen(cell) + 1; // add one for the zero termination

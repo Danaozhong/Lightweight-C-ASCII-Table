@@ -1,45 +1,67 @@
 # Lightweight ASCII Table
 
-Libtable is a lightweight C library to draw ASCII tables, especially designed for system with very litte RAM/flash. RAM usage is kept to an absolute minimum.
-To further reduce memory footprint, the library supports printing out data line by line, therefore allowing printing large tables via UART without the need of creating large buffers.
-The key to reduce RAM footprint is to not buffer the entire table in RAM, but draw it and push it out line-by-line. It is therefore sufficient to allocate only one single line of the table!
+```bash
+╔══════════════╦═══════╦═══════╗
+║Name          ║Country║User ID║
+╠══════════════╬═══════╬═══════╣
+║Max Mustermann║GER    ║4124   ║
+╠══════════════╬═══════╬═══════╣
+║John Doe      ║USA    ║5240   ║
+╚══════════════╩═══════╩═══════╝
+```
+This is a C library to generate ASCII tables.
 
-Only one standard-design is supported. column width is automatically calculated based on the content size.
+## Why yet another ASCII Table Library?
+I tried to use existing ASCII table libraries, but these didn't work for me on systems with very little RAM (e.g. IoT or low-powered microcontrollers), as none of the existing libraries are memory efficient. This library was written to support ASCII tables with minimum RAM usage.
+
+## Design
+Libtable is a lightweight C library to draw ASCII tables, especially designed for system with very litte RAM/flash. RAM usage is kept to an absolute minimum.
+To further reduce memory footprint, the library supports printing out tables line by line, therefore allowing outputting large table without the need of buffering the entire formatted table in memory.
+
+Only one table design is supported. The column width is automatically calculated based on the content size.
 No dynamic memory allocations are used. All allocations are static, making this library therefore suitable for automotive / safety critical environments.
 
 To be portable, it is a C library.
 
-# How to use it?
+## How to Use this Library?
 
 Have a look at the example below:
 ```cpp
+// Initialize the table
 tst_lib_table table;
 i32_lib_table_initialize_table(&table);
 
-// add data to the table
-i32_lib_table_add_row(&table, 7, "Module ID", "Excp ID", "Misc", "Count", "Timestamp", "Line", "File");
-for (....)
-{
-    i32_lib_table_add_row(&table, 7, ac_module_id, ac_excp_id, ac_misc, ac_count, ac_timestamp, ac_line, itr->m_ai8_file);
+// add header to the table
+i32_lib_table_add_row(&table, 3, "Name", "Country", "User ID");
+
+// add a few rows.
+// this example just adds the same user 100 times
+for (int i = 0; i < 100; ++i) {
+    i32_lib_table_add_row(&table, 3, "John Doe", "USA", "1234");
 }
   
-// print it out using a 128-byte small buffer
+// print it out using a 128-byte small buffer. Note that there is no
+// need to allocate a large buffer for the entire table. Instead,
+// the small 128 bytes are sufficient to print out the entire table.
 char buffer[128];
 int32_t i32_ret_val = 1;
 uint32_t u32_offet = 0u;
-while(1 == i32_ret_val)
-{
+while(1 == i32_ret_val) {
+    // draw the current sub-part of the table...
     i32_ret_val = i32_lib_table_draw_table(&table, buffer, 128, u32_offet);
-    u32_offet += 127;
+    
+    // ...and push it out to stdout
     std::cout << buffer;
+
+    // for the next run, push out the next 127 (or less) bytes.
+    u32_offet += 127;
 }
 ```
 
-# How does it look like?
-
+## Example Output
 
 This is an example on how the table looks like when printed:
-```cpp
+```bash
 ╔═════════╦═══════╦════╦═════╦═════════╦════╦═══════════════╗
 ║Module ID║Excp ID║Misc║Count║Timestamp║Line║File           ║
 ╠═════════╬═══════╬════╬═════╬═════════╬════╬═══════════════╣
@@ -53,7 +75,7 @@ This is an example on how the table looks like when printed:
 ╚═════════╩═══════╩════╩═════╩═════════╩════╩═══════════════╝
 ```
 
-# How to Integrate?
+## How to Use This Library
 The library is basicially just two files. Just include them in your project, or integrate the CMake file, such as:
 ```cmake
 add_subdirectory(misc/libs/libtable)
