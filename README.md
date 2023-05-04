@@ -36,7 +36,7 @@ i32_lib_table_add_row(&table, 3, "Name", "Country", "User ID");
 
 // add a few rows.
 // this example just adds the same user 100 times
-for (int i = 0; i < 100; ++i) {
+for (int i = 0; i < 10; ++i) {
     i32_lib_table_add_row(&table, 3, "John Doe", "USA", "1234");
 }
   
@@ -79,7 +79,7 @@ This is an example on how the table looks like when printed:
 The library is basicially just two files. Just include them in your project, or integrate the CMake file, such as:
 ```cmake
 add_subdirectory(misc/libs/libtable)
-target_link_libraries(${CMAKE_PROJECT_NAME} libtable)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE libtable)
 ```
 
 The library is currently in a very early stage of development. There might be small issues left.
