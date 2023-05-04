@@ -9,9 +9,13 @@ extern "C"
 {
 #endif
 
+/// Specifies how much storage to reserve per table in bytes.
+#define LIB_TABLE_TABLE_BUFFER_SIZE 4096
+
 /// specifies how much memory to reserve for each print cycle.
 /// This is equivalent to the RAM usage of the library. 
 #define LIB_TABLE_MAXIMUM_LINE_LENGTH 150
+
 
 #define LIB_TABLE_NEW_LINE "\n\r"
 #define LIB_TABLE_SPACE ' '
@@ -64,7 +68,7 @@ extern "C"
 		* Depending on the size of your table, adjust the memory
 		* usage as needed.
 		*/
-		char ai8_buffer[2048];
+		char ai8_buffer[LIB_TABLE_TABLE_BUFFER_SIZE];
 
 	} tst_lib_table;
 
