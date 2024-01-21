@@ -12,13 +12,16 @@
 This is a C library to generate ASCII tables.
 
 ## Status
-![build](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build.yml/badge.svg)
+![build-linux](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build-linux.yml/badge.svg)
+![build-macos](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build-macos.yml/badge.svg)
+![buid-windows](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build-windows.yml/badge.svg)
+![tests](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/run-tests.yml/badge.svg)
 
 ## Why yet another ASCII Table Library?
-I tried to use existing ASCII table libraries, but these didn't work for me on systems with very little RAM (e.g. IoT or low-powered microcontrollers), as none of the existing libraries are memory efficient. This library was written to support ASCII tables with minimum RAM usage.
+I tried to use existing ASCII table libraries, but these didn't work for me on systems with very little RAM (e.g. IoT or low-powered micro controllers), as none of the existing libraries are memory efficient. This library was written to support ASCII tables with minimum RAM usage.
 
 ## Design
-Libtable is a lightweight C library to draw ASCII tables, especially designed for system with very litte RAM/flash. RAM usage is kept to an absolute minimum.
+`libtable`` is a lightweight C library to draw ASCII tables, especially designed for system with very little RAM/flash. memory footprint is kept to an absolute minimum.
 To further reduce memory footprint, the library supports printing out tables line by line, therefore allowing outputting large table without the need of buffering the entire formatted table in memory.
 
 Only one table design is supported. The column width is automatically calculated based on the content size.
@@ -79,7 +82,7 @@ This is an example on how the table looks like when printed:
 ```
 
 ## How to Use This Library
-The library is basicially just two files. Just include them in your project, or integrate the CMake file, such as:
+The library is basically just two files. Just include them in your project, or integrate the CMake file, such as:
 ```cmake
 add_subdirectory(misc/libs/libtable)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE libtable)
