@@ -12,7 +12,7 @@ TEST(PrintTable, SimpleTest) {
   // Create a large table with dummy data
   i32_lib_table_add_row(&table, 3, "Name", "Address", "Age");
   for (int i = 0; i != 10; ++i) {
-    i32_lib_table_add_row(&table, 3, "John Doe", "Schwanheim, Frankfurt, Germany", std::to_string(i + 30 % 70));
+    i32_lib_table_add_row(&table, 3, "John Doe", "Schwanheim, Frankfurt, Germany", std::to_string(i + 30 % 70).c_str());
   }
 
   // simulate a situation with a very small output buffer.
