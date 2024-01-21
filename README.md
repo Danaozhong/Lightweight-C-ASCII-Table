@@ -12,10 +12,10 @@
 This is a C library to generate ASCII tables.
 
 ## Status
-![build-linux](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build-linux.yml/badge.svg)
-![build-macos](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build-macos.yml/badge.svg)
-![buid-windows](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build-windows.yml/badge.svg)
-![tests](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/run-tests.yml/badge.svg)
+![build-linux](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build-linux.yaml/badge.svg)
+![build-macos](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build-macos.yaml/badge.svg)
+![buid-windows](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/build-windows.yaml/badge.svg)
+![tests](https://github.com/Danaozhong/Lightweight-C-ASCII-Table/actions/workflows/run-tests.yaml/badge.svg)
 
 ## Why yet another ASCII Table Library?
 I tried to use existing ASCII table libraries, but these didn't work for me on systems with very little RAM (e.g. IoT or low-powered micro controllers), as none of the existing libraries are memory efficient. This library was written to support ASCII tables with minimum RAM usage.
