@@ -29,8 +29,3 @@ jobs:
 
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }}
-
-    - uses: actions/upload-artifact@v3
-      with:
-        name: galois-cli-macos
-        path: ${{ github.workspace }}/**/GaloisTableGenerator
