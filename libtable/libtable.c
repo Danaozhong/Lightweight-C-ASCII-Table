@@ -479,8 +479,8 @@ int32_t i32_lib_table_add_col(tst_lib_table *ptst_table, uint16_t u16_new_col_in
 		// first, move everything from the buffer
 		for (int32_t i32_row = (int32_t)ptst_table->u16_num_of_rows - 1; i32_row != 0u; i32_row--)
 		{
-			char* dst = NULL;
-			char* src = NULL;
+			uint8_t* dst = NULL;
+			uint8_t* src = NULL;
 			for (int32_t i32_col = ptst_table->u16_num_of_cols - 1; i32_col > u16_new_col_index; i32_col--)
 			{
 				// copy the old size information and move it to the new position in the header array

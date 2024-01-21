@@ -1,11 +1,4 @@
 
-cmake_minimum_required(VERSION 3.1)
-
-project(
-  libtable
-  VERSION 1.0
-  LANGUAGES C)
-
 add_library(libtable
     libtable.c)
 
@@ -28,5 +21,5 @@ install(
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-install(FILES libtable.h libtable.hpp DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(FILES libtable.h libtable.c DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
